@@ -217,7 +217,7 @@ class FloatObject(decimal.Decimal, PdfObject):
 
 class NumberObject(int, PdfObject):
     def __init__(self, value):
-        int.__init__(value)
+        super(NumberObject, self).__init__(value)
 
     def writeToStream(self, stream, encryption_key):
         stream.write(repr(self))
@@ -417,7 +417,7 @@ class NameObject(str, PdfObject):
     delimiterCharacters = "(", ")", "<", ">", "[", "]", "{", "}", "/", "%"
 
     def __init__(self, data):
-        str.__init__(data)
+        super(NameObject, self).__init__(data)
 
     def writeToStream(self, stream, encryption_key):
         stream.write(self)
@@ -663,7 +663,7 @@ class RectangleObject(ArrayObject):
         # must have four points
         assert len(arr) == 4
         # automatically convert arr[x] into NumberObject(arr[x]) if necessary
-        ArrayObject.__init__(self, [self.ensureIsNumber(x) for x in arr])
+        super(RectangleObject, self).__init__(self, [self.ensureIsNumber(x) for x in arr])
 
     def ensureIsNumber(self, value):
         if not isinstance(value, (NumberObject, FloatObject)):
@@ -687,7 +687,7 @@ class RectangleObject(ArrayObject):
 
     def getUpperLeft_x(self):
         return self.getLowerLeft_x()
-    
+
     def getUpperLeft_y(self):
         return self.getUpperRight_y()
 
